@@ -1,0 +1,38 @@
+x-base: &base
+  build:
+    context: .
+    dockerfile: Dockerfile
+  working_dir: /app
+  volumes:
+    - .:/app
+
+services:
+  workspace:
+    <<: *base
+    stdin_open: true
+    tty: true
+    command: ["tail", "-f", "/dev/null"]
+
+  demo-vanilla:
+    <<: *base
+    ports:
+      - "4173:4173"
+    command: ["pnpm", "--filter", "demo-vanilla", "dev"]
+
+  demo-vue:
+    <<: *base
+    ports:
+      - "4174:4174"
+    command: ["pnpm", "--filter", "demo-vue", "dev"]
+
+  demo-react:
+    <<: *base
+    ports:
+      - "4175:4175"
+    command: ["pnpm", "--filter", "demo-react", "dev"]
+
+  demo-angular:
+    <<: *base
+    ports:
+      - "4200:4200"
+    command: ["pnpm", "--filter", "demo-angular", "dev"]

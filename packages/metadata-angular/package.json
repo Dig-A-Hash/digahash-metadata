@@ -1,0 +1,38 @@
+{
+  "name": "@digahash/metadata-angular",
+  "version": "0.1.0",
+  "description": "Angular services for Digahash metadata.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@digahash/metadata-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@angular/core": "^19.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "lint": "echo 'No lint configured for metadata-angular'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@angular/core": "^19.2.0"
+  }
+}
