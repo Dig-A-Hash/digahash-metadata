@@ -1,24 +1,56 @@
 import { useMetadata } from '@digahash/metadata-react';
+import './styles.css';
 
 export function App() {
   const metadata = useMetadata({
-    user: 'dig-a-hash',
-    folder: 'demo',
-    totalSupply: 25,
-    batchSize: 5,
-    isAscending: true
+    user: 'wgoqc',
+    folder: 'news',
+    totalSupply: 90,
+    batchSize: 10,
+    isAscending: true,
+    startTokenId: 0,
+    baseUrl: 'https://nft.dig-a-hash.com/profiles',
+    chainId: 137
   });
 
   return (
-    <main style={{ fontFamily: 'sans-serif', maxWidth: 680, margin: '2rem auto', lineHeight: 1.5 }}>
+    <main className="page">
       <h1>React Metadata Demo</h1>
-      <p>Downloaded: <strong>{metadata.downloadedCount}</strong></p>
-      <p>Loading: <strong>{metadata.isLoading ? 'yes' : 'no'}</strong></p>
-      <p>All loaded: <strong>{metadata.allLoaded ? 'yes' : 'no'}</strong></p>
-      <button onClick={() => void metadata.fetchBatch()}>Fetch Next Batch</button>
-      <pre style={{ background: '#f6f6f6', padding: '1rem', overflow: 'auto' }}>
-        {JSON.stringify(metadata.items.slice(0, 2), null, 2)}
-      </pre>
+
+      <div className="status-row">
+        <p>Downloaded: <strong>{metadata.downloadedCount}</strong></p>
+        <p>Loading: <strong>{metadata.isLoading ? 'yes' : 'no'}</strong></p>
+        <p>Entire collection requested: <strong>{metadata.allLoaded ? 'yes' : 'no'}</strong></p>
+      </div>
+
+      <button className="fetch-button" disabled={metadata.isLoading} onClick={() => void metadata.fetchBatch()}>
+        {metadata.isLoading ? 'Fetching...' : 'Fetch Next Batch'}
+      </button>
+
+      {metadata.items.length ? (
+        <section className="card-grid">
+          {metadata.items.map((item) => (
+            <article key={item.tokenId} className="card">
+              <header className="card-header">
+                <span className="token-id">#{item.tokenId}</span>
+                <h2>{item.metaData.name}</h2>
+              </header>
+
+              <div className="image-frame">
+                {item.metaData.image ? (
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore allow string image URLs
+                  <img src={item.metaData.image} alt={item.metaData.name} className="card-image" />
+                ) : (
+                  <div className="image-placeholder">No image</div>
+                )}
+              </div>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <p className="empty-state">Fetch a batch to preview the cards.</p>
+      )}
     </main>
   );
 }

@@ -22,12 +22,16 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   };
 
   const fetchBatch = async () => {
-    await state.fetchBatch();
+    const inFlight = state.fetchBatch();
+    syncFromCore();
+    await inFlight;
     syncFromCore();
   };
 
   const fetchAllRemainingMetadata = async () => {
-    await state.fetchAllRemainingMetadata();
+    const inFlight = state.fetchAllRemainingMetadata();
+    syncFromCore();
+    await inFlight;
     syncFromCore();
   };
 
