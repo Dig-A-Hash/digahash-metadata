@@ -8,10 +8,10 @@ This repo provides packages for [Angular][angular], [Vue][vue], [React][react], 
 
 This repository contains four framework specific wrapper packages that integrate with `@digahash/metadata-core`
 
-* `@digahash/metadata angular` the Angular service wrapper
-* `@digahash/metadata vue` the Vue 3 composable wrapper
-* `@digahash/metadata react` the React hook wrapper
-* `@digahash/metadata core` the Vanilla JavaScript core package
+* `@digahash/metadata-angular` the Angular service wrapper
+* `@digahash/metadata-vue` the Vue 3 composable wrapper
+* `@digahash/metadata-react` the React hook wrapper
+* `@digahash/metadata-core` the Vanilla JavaScript core package
 
 Demo applications demonstrating usage for each framework are included under the `apps` folder for Vanilla JS, Vue, React, and Angular
 
