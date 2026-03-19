@@ -2,7 +2,7 @@
 
 Monorepo for multi framework metadata libraries providing tools to publish web content from simple hosted JSON files that are sequentially numbered. This approach can eliminate the need for a more expensive separate database in website development.
 
-This repo provides packages for Angular, Vue, React, and Vanilla JavaScript.
+This repo provides packages for [Angular][angular], [Vue][vue], [React][react], and [Vanilla JavaScript][vanillajs].
 
 ## Packages
 
@@ -11,9 +11,9 @@ This repository contains four framework specific wrapper packages that integrate
 * `@digahash/metadata angular` the Angular service wrapper
 * `@digahash/metadata vue` the Vue 3 composable wrapper
 * `@digahash/metadata react` the React hook wrapper
-* `@digahash/metadata core` the framework agnostic core utilities
+* `@digahash/metadata core` the Vanilla JavaScript core package
 
-Demo applications demonstrating usage for each framework are included under the `apps` folder for Vanilla Vue React and Angular
+Demo applications demonstrating usage for each framework are included under the `apps` folder for Vanilla JS, Vue, React, and Angular
 
 ## Demo Apps
 
@@ -52,6 +52,11 @@ When running demos are available at these local addresses
 * `packages/metadata-vue/README.md`
 * `packages/metadata-react/README.md`
 * `packages/metadata-angular/README.md`
+
+[angular]: https://angular.io
+[vue]: https://vuejs.org
+[react]: https://reactjs.org
+[vanillajs]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 ## License
 
