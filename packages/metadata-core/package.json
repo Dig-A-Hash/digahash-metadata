@@ -1,6 +1,6 @@
 {
   "name": "@digahash/metadata-core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Framework-agnostic metadata state and utilities for Digahash.",
   "license": "MIT",
   "type": "module",

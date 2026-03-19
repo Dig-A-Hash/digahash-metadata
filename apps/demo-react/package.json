@@ -1,10 +1,10 @@
 {
   "name": "demo-react",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "@digahash/metadata-react": "workspace:*",
+    "@digahash/metadata-react": "^1.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
