@@ -1,8 +1,8 @@
 import 'zone.js';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { createMetadataService } from '@digahash/metadata-angular';
+import { createMetadataService, groupItemsIntoRows } from '@digahash/metadata-angular';
 import './styles.css';
 
 @Component({
@@ -21,20 +21,24 @@ import './styles.css';
 
       <button class="fetch-button" [disabled]="isLoading()" (click)="loadBatch()">{{ isLoading() ? 'Fetching...' : 'Fetch Next Batch' }}</button>
 
-      <section *ngIf="items().length" class="card-grid">
-        <article *ngFor="let item of items()" class="card">
-          <header class="card-header">
-            <span class="token-id">#{{ item.tokenId }}</span>
-            <h2>{{ item.metaData.name }}</h2>
-          </header>
-          <div class="image-frame">
-            <img *ngIf="item.metaData.image" [src]="item.metaData.image" [alt]="item.metaData.name" class="card-image" />
-            <div *ngIf="!item.metaData.image" class="image-placeholder">No image</div>
-          </div>
-        </article>
+      <p *ngIf="lastError()" class="error-state">{{ lastError() }}</p>
+
+      <section *ngIf="groupedItems().length" class="card-rows">
+        <div *ngFor="let row of groupedItems()" class="card-row">
+          <article *ngFor="let item of row" class="card">
+            <header class="card-header">
+              <span class="token-id">#{{ item.tokenId }}</span>
+              <h2>{{ readName(item.metaData) }}</h2>
+            </header>
+            <div class="image-frame">
+              <img *ngIf="readImage(item.metaData) as image" [src]="image" [alt]="readName(item.metaData)" class="card-image" />
+              <div *ngIf="!readImage(item.metaData)" class="image-placeholder">No image</div>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <p *ngIf="!items().length" class="empty-state">Fetch a batch to preview the cards.</p>
+      <p *ngIf="!groupedItems().length" class="empty-state">Fetch a batch to preview the cards.</p>
     </main>
   `
 })
@@ -53,16 +57,41 @@ class AppComponent {
   readonly downloadedCount = signal(this.metadata.downloadedCount);
   readonly isLoading = signal(this.metadata.isLoading);
   readonly allLoaded = signal(this.metadata.allLoaded);
+  readonly lastError = signal<string | null>(null);
   readonly preview = signal(JSON.stringify(this.metadata.items.slice(0, 2), null, 2));
   readonly items = signal(this.metadata.items);
+  readonly groupedItems = computed(() => groupItemsIntoRows(this.items(), 4));
 
   async loadBatch(): Promise<void> {
-    await this.metadata.fetchBatch();
-    this.downloadedCount.set(this.metadata.downloadedCount);
-    this.isLoading.set(this.metadata.isLoading);
-    this.allLoaded.set(this.metadata.allLoaded);
-    this.preview.set(JSON.stringify(this.metadata.items.slice(0, 2), null, 2));
-    this.items.set(this.metadata.items);
+    this.lastError.set(null);
+    try {
+      await this.metadata.fetchBatch();
+      this.downloadedCount.set(this.metadata.downloadedCount);
+      this.isLoading.set(this.metadata.isLoading);
+      this.allLoaded.set(this.metadata.allLoaded);
+      this.preview.set(JSON.stringify(this.metadata.items.slice(0, 2), null, 2));
+      this.items.set([...this.metadata.items]);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to fetch metadata batch.';
+      this.lastError.set(message);
+      console.error('Fetch batch failed', error);
+    }
+  }
+
+  readName(metaData: unknown): string {
+    if (!metaData || typeof metaData !== 'object') {
+      return 'Untitled';
+    }
+    const name = (metaData as { name?: unknown }).name;
+    return typeof name === 'string' && name.length > 0 ? name : 'Untitled';
+  }
+
+  readImage(metaData: unknown): string | null {
+    if (!metaData || typeof metaData !== 'object') {
+      return null;
+    }
+    const image = (metaData as { image?: unknown }).image;
+    return typeof image === 'string' && image.length > 0 ? image : null;
   }
 }
 

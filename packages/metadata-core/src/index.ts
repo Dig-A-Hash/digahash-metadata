@@ -1,5 +1,5 @@
 export { createMetadataState } from './state';
-export { getMetadataAttributeValue, getPublicAttributeValue } from './utils';
+export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows } from './utils';
 export type {
   CreateMetadataStateOptions,
   Metadata,

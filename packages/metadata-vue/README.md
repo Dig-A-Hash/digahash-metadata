@@ -89,7 +89,7 @@ The composable accepts these options (mapped into the underlying state factory):
 - `startTokenId` (number, default `0`) — starting token id for ascending flows.
 - `baseUrl` (string, default `https://nft.dig-a-hash.com/profiles`) — base host for metadata files. [used in URL]
 - `chainId` (number, default `137`) — legacy chain id; use `0` when a placeholder is required. [used in URL]
-- `groupSize` (number, default `4`) — number of items per `groupedNfts` row.
+- `groupSize` (number, default `4`) — number of items per `groupedItems` row.
 - `fetcher` (function, default `fetch`) — custom fetch function for testing or polyfills.
 
 URL template used by the implementation:
@@ -100,7 +100,7 @@ URL template used by the implementation:
 
 ### Returned API
 
-The composable returns the `MetadataState` surface (getters for `items`, `isLoading`, `nextTokenId`, `allLoaded`, `downloadedCount`, `groupedNfts`, and async methods `fetchMetadata`, `fetchMetadataBatch`, `fetchBatch`, `fetchAllRemainingMetadata`).
+The composable returns the `MetadataState` surface (getters for `items`, `isLoading`, `nextTokenId`, `allLoaded`, `downloadedCount`, `groupedItems`, and async methods `fetchMetadata`, `fetchMetadataBatch`, `fetchBatch`, `fetchAllRemainingMetadata`).
 
 Detailed return values and usage:
 
@@ -109,7 +109,7 @@ Detailed return values and usage:
 - `nextTokenId`: next id to be requested.
 - `allLoaded`: whether fetching has completed for the collection.
 - `downloadedCount`: convenience count equal to `items.length`.
-- `groupedNfts`: `items` partitioned into rows of `groupSize` for UI layouts.
+- `groupedItems`: `items` partitioned into rows of `groupSize` for UI layouts.
 - `fetchMetadata(tokenId)`: returns `Metadata | null`; `metaDataUrl` shows the resolved URL.
 - `fetchMetadataBatch(tokenIds)`: returns `(Metadata | null)[]`.
 - `fetchBatch()`: requests the next `batchSize` items.

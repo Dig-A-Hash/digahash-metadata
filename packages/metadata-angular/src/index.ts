@@ -20,7 +20,7 @@ export class MetadataService {
   readonly allLoaded = computed(() => this.allLoadedSignal());
   readonly nextTokenId = computed(() => this.nextTokenIdSignal());
   readonly downloadedCount = computed(() => this.itemsSignal().length);
-  readonly groupedNfts = computed(() => (this.coreState ? this.coreState.groupedNfts : []));
+  readonly groupedItems = computed(() => (this.coreState ? this.coreState.groupedItems : []));
 
   initialize(options: CreateMetadataStateOptions): void {
     this.coreState = createMetadataState(options);
@@ -72,7 +72,7 @@ export function createMetadataService(options: CreateMetadataStateOptions): Meta
   return createMetadataState(options);
 }
 
-export { getMetadataAttributeValue, getPublicAttributeValue } from '@digahash/metadata-core';
+export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows } from '@digahash/metadata-core';
 export type {
   CreateMetadataStateOptions,
   Metadata,

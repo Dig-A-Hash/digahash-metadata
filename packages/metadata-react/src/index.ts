@@ -13,7 +13,7 @@ interface MetadataSnapshot {
   allLoaded: boolean;
   nextTokenId: number;
   downloadedCount: number;
-  groupedNfts: Metadata[][];
+  groupedItems: Metadata[][];
 }
 
 function snapshot(state: MetadataState): MetadataSnapshot {
@@ -23,7 +23,7 @@ function snapshot(state: MetadataState): MetadataSnapshot {
     allLoaded: state.allLoaded,
     nextTokenId: state.nextTokenId,
     downloadedCount: state.downloadedCount,
-    groupedNfts: state.groupedNfts
+    groupedItems: state.groupedItems
   };
 }
 
@@ -68,7 +68,7 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   }), [view, fetchBatch, fetchAllRemainingMetadata, fetchMetadataBatch, fetchMetadata]);
 }
 
-export { getMetadataAttributeValue, getPublicAttributeValue } from '@digahash/metadata-core';
+export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows } from '@digahash/metadata-core';
 export type {
   CreateMetadataStateOptions,
   Metadata,

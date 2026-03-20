@@ -1,9 +1,26 @@
 import type { CreateMetadataStateOptions, Metadata, MetadataState } from './types';
+import { groupItemsIntoRows } from './utils';
 
+/** Default base URL used to construct metadata file locations. */
 const DEFAULT_BASE_URL = 'https://nft.dig-a-hash.com/profiles';
+
+/** Default blockchain chain id (Polygon). */
 const DEFAULT_CHAIN_ID = 137;
+
+/** Default number of items per visual row when grouping results. */
 const DEFAULT_GROUP_SIZE = 4;
 
+/**
+ * Create a MetadataState for paginated fetching of metadata JSON files.
+ *
+ * The returned object exposes read-only getters for state and functions
+ * for fetching metadata in batches. Options allow configuring sort
+ * direction, batch size, start token, and a custom `fetch` implementation
+ * for testing or environment-specific fetching.
+ *
+ * @param options - Configuration for the metadata state instance.
+ * @returns A `MetadataState` with getters and fetch helpers.
+ */
 export function createMetadataState(options: CreateMetadataStateOptions): MetadataState {
   const {
     user,
@@ -25,6 +42,11 @@ export function createMetadataState(options: CreateMetadataStateOptions): Metada
     allLoaded: false
   };
 
+  /**
+   * Fetch a single metadata JSON for the given `tokenId`.
+   * Returns a `Metadata` object on success or `null` when the fetch fails
+   * (non-2xx response or network error).
+   */
   const fetchMetadata = async (tokenId: number): Promise<Metadata | null> => {
     try {
       const url = `${baseUrl}/${user}/meta-data/${chainId}/${folder}/${tokenId}.json`;
@@ -46,10 +68,20 @@ export function createMetadataState(options: CreateMetadataStateOptions): Metada
     }
   };
 
+  /**
+   * Fetch multiple metadata files in parallel. Returns an array where
+   * individual entries may be `null` for failed fetches.
+   */
   const fetchMetadataBatch = async (tokenIds: number[]): Promise<(Metadata | null)[]> => {
     return Promise.all(tokenIds.map((id) => fetchMetadata(id)));
   };
 
+  /**
+   * Fetch the next batch of metadata based on the configured `batchSize`
+   * and current `nextTokenId`. Updates internal state (`items`,
+   * `nextTokenId`, `allLoaded`, `isLoading`). This is the primary
+   * incremental loading method used by callers.
+   */
   const fetchBatch = async (): Promise<void> => {
     if (state.isLoading || state.allLoaded) {
       return;
@@ -92,6 +124,10 @@ export function createMetadataState(options: CreateMetadataStateOptions): Metada
     state.isLoading = false;
   };
 
+  /**
+   * Repeatedly fetch batches until all metadata has been loaded or a
+   * fetch is already in progress. Useful for preloading everything.
+   */
   const fetchAllRemainingMetadata = async (): Promise<void> => {
     if (state.isLoading) {
       return;
@@ -107,27 +143,29 @@ export function createMetadataState(options: CreateMetadataStateOptions): Metada
   };
 
   return {
+    /** Current array of loaded `Metadata` items. */
     get items() {
       return state.items;
     },
+    /** Whether a fetch operation is currently in progress. */
     get isLoading() {
       return state.isLoading;
     },
+    /** Next token id that will be used for the following batch fetch. */
     get nextTokenId() {
       return state.nextTokenId;
     },
+    /** True when all metadata (based on `totalSupply`) has been attempted. */
     get allLoaded() {
       return state.allLoaded;
     },
+    /** Number of successfully downloaded metadata entries. */
     get downloadedCount() {
       return state.items.length;
     },
-    get groupedNfts() {
-      const rows: Metadata[][] = [];
-      for (let i = 0; i < state.items.length; i += groupSize) {
-        rows.push(state.items.slice(i, i + groupSize));
-      }
-      return rows;
+    /** Items grouped into rows of `groupSize` for UI consumption. */
+    get groupedItems() {
+      return groupItemsIntoRows(state.items, groupSize);
     },
     fetchMetadata,
     fetchMetadataBatch,

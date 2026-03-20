@@ -40,9 +40,29 @@ export interface MetadataState {
   readonly nextTokenId: number;
   readonly allLoaded: boolean;
   readonly downloadedCount: number;
-  readonly groupedNfts: Metadata[][];
+  readonly groupedItems: Metadata[][];
   fetchMetadata: (tokenId: number) => Promise<Metadata | null>;
   fetchMetadataBatch: (tokenIds: number[]) => Promise<(Metadata | null)[]>;
   fetchBatch: () => Promise<void>;
   fetchAllRemainingMetadata: () => Promise<void>;
+}
+
+/**
+ * Supply count for a single collection. Shared domain type.
+ *
+ * Notes:
+ * - Preferred shape uses `user` and `folder` which map directly to the
+ *   metadata URL template used by `createMetadataState`.
+ * - Legacy payloads may still include `contractOwner` and `contractAddress`.
+ *   These are accepted by the helper and treated as deprecated aliases.
+ */
+export interface SupplyCount {
+  user?: string;
+  folder?: string;
+  /** @deprecated use `user` */
+  contractOwner?: string;
+  /** @deprecated use `folder` */
+  contractAddress?: string;
+  chainId: number;
+  count: number;
 }

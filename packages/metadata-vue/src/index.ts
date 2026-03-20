@@ -46,7 +46,7 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   syncFromCore();
 
   const downloadedCount = computed(() => items.value.length);
-  const groupedNfts = computed(() => state.groupedNfts);
+  const groupedItems = computed(() => state.groupedItems);
 
   return {
     items,
@@ -54,7 +54,7 @@ export function useMetadata(options: CreateMetadataStateOptions) {
     allLoaded,
     nextTokenId,
     downloadedCount,
-    groupedNfts,
+    groupedItems,
     fetchBatch,
     fetchAllRemainingMetadata,
     fetchMetadataBatch,
@@ -63,7 +63,7 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   };
 }
 
-export { getMetadataAttributeValue, getPublicAttributeValue } from '@digahash/metadata-core';
+export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows } from '@digahash/metadata-core';
 export type {
   CreateMetadataStateOptions,
   Metadata,

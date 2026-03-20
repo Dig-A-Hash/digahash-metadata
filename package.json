@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "build": "pnpm -r --if-present build",
+    "build": "pnpm --filter @digahash/metadata-core build && pnpm --filter @digahash/metadata-react --filter @digahash/metadata-vue --filter @digahash/metadata-angular build && pnpm --filter demo-react --filter demo-vue --filter demo-vanilla --filter demo-angular build",
     "dev": "pnpm -r --parallel --if-present dev",
     "test": "pnpm -r --if-present test",
     "lint": "pnpm -r --if-present lint",
@@ -13,7 +13,7 @@
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "docker:install": "docker run --rm -it -v \"$(pwd):/app\" -w /app node:24-slim sh -lc \"corepack enable && pnpm install\"",
-    "docker:build": "docker run --rm -it -v \"$(pwd):/app\" -w /app node:24-slim sh -lc \"corepack enable && pnpm -r build\""
+    "docker:build": "docker run --rm -it -v \"$(pwd):/app\" -w /app node:24-slim sh -lc \"corepack enable && pnpm --filter @digahash/metadata-core build && pnpm --filter @digahash/metadata-react --filter @digahash/metadata-vue --filter @digahash/metadata-angular build && pnpm --filter demo-react --filter demo-vue --filter demo-vanilla --filter demo-angular build\""
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

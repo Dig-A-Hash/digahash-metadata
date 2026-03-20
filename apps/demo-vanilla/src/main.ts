@@ -1,4 +1,4 @@
-import { createMetadataState } from '@digahash/metadata-core';
+import { createMetadataState, groupItemsIntoRows } from '@digahash/metadata-core';
 import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app');
@@ -18,25 +18,29 @@ const state = createMetadataState({
 });
 
 const render = () => {
-  const itemsHtml = state.items.length
-    ? state.items
-      .map((item) => {
-        const image = item.metaData.image
-          ? `<img src="${item.metaData.image}" alt="${(item.metaData.name ?? '').replace(/"/g, '&quot;')}" class="card-image">`
-          : `<div class="image-placeholder">No image</div>`;
+  const rowsHtml = groupItemsIntoRows(state.items, 4)
+    .map((row) => {
+      const itemsHtml = row
+        .map((item) => {
+          const image = item.metaData.image
+            ? `<img src="${item.metaData.image}" alt="${(item.metaData.name ?? '').replace(/"/g, '&quot;')}" class="card-image">`
+            : `<div class="image-placeholder">No image</div>`;
 
-        return `
-            <article class="card">
-              <header class="card-header">
-                <span class="token-id">#${item.tokenId}</span>
-                <h2>${(item.metaData.name ?? '').replace(/</g, '&lt;')}</h2>
-              </header>
-              <div class="image-frame">${image}</div>
-            </article>
-          `;
-      })
-      .join('\n')
-    : '';
+          return `
+              <article class="card">
+                <header class="card-header">
+                  <span class="token-id">#${item.tokenId}</span>
+                  <h2>${(item.metaData.name ?? '').replace(/</g, '&lt;')}</h2>
+                </header>
+                <div class="image-frame">${image}</div>
+              </article>
+            `;
+        })
+        .join('\n');
+
+      return `<div class="card-row">${itemsHtml}</div>`;
+    })
+    .join('\n');
 
   app.innerHTML = `
     <main class="page">
@@ -50,7 +54,7 @@ const render = () => {
 
       <button id="load" class="fetch-button" ${state.isLoading ? 'disabled' : ''}>${state.isLoading ? 'Fetching...' : 'Fetch Next Batch'}</button>
 
-      ${state.items.length ? `<section class="card-grid">${itemsHtml}</section>` : `<p class="empty-state">Fetch a batch to preview the cards.</p>`}
+      ${rowsHtml ? `<section class="card-rows">${rowsHtml}</section>` : `<p class="empty-state">Fetch a batch to preview the cards.</p>`}
     </main>
   `;
 

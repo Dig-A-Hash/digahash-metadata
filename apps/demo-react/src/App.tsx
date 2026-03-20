@@ -1,4 +1,4 @@
-import { useMetadata } from '@digahash/metadata-react';
+import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-react';
 import './styles.css';
 
 export function App() {
@@ -12,6 +12,8 @@ export function App() {
     baseUrl: 'https://nft.dig-a-hash.com/profiles',
     chainId: 137
   });
+
+  const groupedItems = groupItemsIntoRows(metadata.items, 4);
 
   return (
     <main className="page">
@@ -27,25 +29,29 @@ export function App() {
         {metadata.isLoading ? 'Fetching...' : 'Fetch Next Batch'}
       </button>
 
-      {metadata.items.length ? (
-        <section className="card-grid">
-          {metadata.items.map((item) => (
-            <article key={item.tokenId} className="card">
-              <header className="card-header">
-                <span className="token-id">#{item.tokenId}</span>
-                <h2>{item.metaData.name}</h2>
-              </header>
+      {groupedItems.length ? (
+        <section className="card-rows">
+          {groupedItems.map((row, rowIndex) => (
+            <div key={`row-${rowIndex}`} className="card-row">
+              {row.map((item) => (
+                <article key={item.tokenId} className="card">
+                  <header className="card-header">
+                    <span className="token-id">#{item.tokenId}</span>
+                    <h2>{item.metaData.name}</h2>
+                  </header>
 
-              <div className="image-frame">
-                {item.metaData.image ? (
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore allow string image URLs
-                  <img src={item.metaData.image} alt={item.metaData.name} className="card-image" />
-                ) : (
-                  <div className="image-placeholder">No image</div>
-                )}
-              </div>
-            </article>
+                  <div className="image-frame">
+                    {item.metaData.image ? (
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore allow string image URLs
+                      <img src={item.metaData.image} alt={item.metaData.name} className="card-image" />
+                    ) : (
+                      <div className="image-placeholder">No image</div>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
           ))}
         </section>
       ) : (

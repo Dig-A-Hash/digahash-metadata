@@ -96,7 +96,7 @@ The hook accepts these options (used to build the internal `createMetadataState`
 - `startTokenId` (number, default `0`) — starting token id for ascending flows.
 - `baseUrl` (string, default `https://nft.dig-a-hash.com/profiles`) — base host for metadata files. [used in URL]
 - `chainId` (number, default `137`) — legacy chain id; use `0` when a placeholder is required. [used in URL]
-- `groupSize` (number, default `4`) — number of items per `groupedNfts` row.
+- `groupSize` (number, default `4`) — number of items per `groupedItems` row.
 - `fetcher` (function, default `fetch`) — custom fetch function for testing or polyfills.
 
 URL template used by the implementation:
@@ -107,7 +107,7 @@ URL template used by the implementation:
 
 ### Returned API
 
-The hook returns the same `MetadataState` surface as `createMetadataState` (getters for `items`, `isLoading`, `nextTokenId`, `allLoaded`, `downloadedCount`, `groupedNfts`, and the async methods `fetchMetadata`, `fetchMetadataBatch`, `fetchBatch`, `fetchAllRemainingMetadata`).
+The hook returns the same `MetadataState` surface as `createMetadataState` (getters for `items`, `isLoading`, `nextTokenId`, `allLoaded`, `downloadedCount`, `groupedItems`, and the async methods `fetchMetadata`, `fetchMetadataBatch`, `fetchBatch`, `fetchAllRemainingMetadata`).
 
 Detailed return values and usage
 
@@ -116,7 +116,7 @@ Detailed return values and usage
 - `nextTokenId`: numeric pointer for the next id to fetch; useful for progress indicators.
 - `allLoaded`: true when the collection has been fully requested.
 - `downloadedCount`: number of loaded items (convenience for UI).
-- `groupedNfts`: `items` partitioned into arrays sized by `groupSize` for grid rendering.
+- `groupedItems`: `items` partitioned into arrays sized by `groupSize` for grid rendering.
 - `fetchMetadata(tokenId)`: fetch a single item; returns `Metadata | null`. The returned object's `metaDataUrl` shows the exact URL used.
 - `fetchMetadataBatch(tokenIds)`: fetch multiple items in parallel; returns `(Metadata | null)[]`.
 - `fetchBatch()`: fetches the next batch according to `batchSize` and `isAscending`.

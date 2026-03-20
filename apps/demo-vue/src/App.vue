@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useMetadata } from '@digahash/metadata-vue';
+import { computed } from 'vue';
+import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-vue';
 
 const {
   items,
@@ -21,6 +22,8 @@ const {
 const loadBatch = async () => {
   await fetchBatch();
 };
+
+const groupedItems = computed(() => groupItemsIntoRows(items.value, 4));
 </script>
 
 <template>
@@ -36,18 +39,20 @@ const loadBatch = async () => {
       {{ isLoading ? 'Fetching...' : 'Fetch Next Batch' }}
     </button>
 
-    <section v-if="items.length" class="card-grid">
-      <article v-for="item in items" :key="item.tokenId" class="card">
-        <header class="card-header">
-          <span class="token-id">#{{ item.tokenId }}</span>
-          <h2>{{ item.metaData.name }}</h2>
-        </header>
+    <section v-if="groupedItems.length" class="card-rows">
+      <div v-for="(row, rowIndex) in groupedItems" :key="rowIndex" class="card-row">
+        <article v-for="item in row" :key="item.tokenId" class="card">
+          <header class="card-header">
+            <span class="token-id">#{{ item.tokenId }}</span>
+            <h2>{{ item.metaData.name }}</h2>
+          </header>
 
-        <div class="image-frame">
-          <img v-if="item.metaData.image" :src="item.metaData.image" :alt="item.metaData.name" class="card-image">
-          <div v-else class="image-placeholder">No image</div>
-        </div>
-      </article>
+          <div class="image-frame">
+            <img v-if="item.metaData.image" :src="item.metaData.image" :alt="item.metaData.name" class="card-image">
+            <div v-else class="image-placeholder">No image</div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <p v-else class="empty-state">Fetch a batch to preview the cards.</p>
@@ -87,11 +92,17 @@ const loadBatch = async () => {
   cursor: not-allowed;
 }
 
-.card-grid {
+.card-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.card-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
 .card {

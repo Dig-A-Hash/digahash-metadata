@@ -94,7 +94,7 @@ The `createMetadataState` factory accepts the following `options`:
 - `startTokenId` (number, default `0`) — starting token id for ascending flows.
 - `baseUrl` (string, default `https://nft.dig-a-hash.com/profiles`) — base host for metadata files.
 - `chainId` (number, default `137`) — legacy chain id; use `0` when a placeholder is required.
-- `groupSize` (number, default `4`) — number of items per `groupedNfts` row.
+- `groupSize` (number, default `4`) — number of items per `groupedItems` row.
 - `fetcher` (function, default global `fetch`) — custom fetch function for testing or polyfills.
 
 The following options are used to build the metadata fetch URL (see template above): `baseUrl`, `user`, `chainId`, and `folder`. The `tokenId` is substituted at request time by fetch methods (not an input option).
@@ -108,7 +108,7 @@ The factory returns an object with getters and async methods used by consumers:
 - `nextTokenId` (getter) — `number` next id to fetch.
 - `allLoaded` (getter) — `boolean` whether the collection has been fully requested.
 - `downloadedCount` (getter) — `number` of items currently loaded.
-- `groupedNfts` (getter) — `Metadata[][]` grouped by `groupSize`.
+- `groupedItems` (getter) — `Metadata[][]` grouped by `groupSize`.
 - `fetchMetadata(tokenId: number): Promise<Metadata | null>` — fetch a single item.
 - `fetchMetadataBatch(tokenIds: number[]): Promise<(Metadata | null)[]>` — fetch multiple items in parallel.
 - `fetchBatch(): Promise<void>` — fetch the next batch according to `batchSize` and `isAscending`.
@@ -121,7 +121,7 @@ Detailed returned values and usage
 - `nextTokenId`: the next token id the state will request when `fetchBatch` is called; useful for progress reporting and resuming partial reads.
 - `allLoaded`: becomes `true` when the implementation has attempted (or determined) that all token ids in the collection have been requested.
 - `downloadedCount`: a convenience number equal to `items.length` for quick metrics.
-- `groupedNfts`: a convenience grouping of `items` into rows of length `groupSize`, useful for grid layouts.
+- `groupedItems`: a convenience grouping of `items` into rows of length `groupSize`, useful for grid layouts.
 - `fetchMetadata(tokenId)`: resolves a single `Metadata` entry or `null` if missing/unavailable. The returned `Metadata` includes `metaDataUrl` — the resolved URL using the template — which you can store, audit, or resolve further assets from.
 - `fetchMetadataBatch(tokenIds)`: returns an array where each element is a `Metadata` or `null` corresponding to the requested token ids; useful for prefetching or parallel hydration.
 - `fetchBatch()`: advances `nextTokenId` and populates `items` with the next `batchSize` items according to `isAscending`; returns when that batch completes.
