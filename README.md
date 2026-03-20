@@ -35,7 +35,7 @@ Demo applications demonstrating usage for each framework are included under the 
 
 Run demo apps in Docker when you want to run a single demo in isolation. See each demo folder for development details and exact run commands.
 
-## Preferred Workflow Docker Desktop and Compose
+## Preferred Workflow Docker Desktop
 
 Use this workflow when you want one Docker project with all demo services available in Docker Desktop. This is the primary workflow for day to day local development.
 
