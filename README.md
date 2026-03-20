@@ -11,7 +11,14 @@ This repo provides packages for [Angular][angular], [Vue][vue], [React][react], 
 	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-js.webp" width="200"  alt="digahash-metadata-js" />
 </div>
 
+## Available Packages by Framework
 
+This monorepo for developing the individual packages for each framework. Use the links below to obtain the version that matches your chosen framework.
+
+- link 1
+- link 2
+- link 3
+- line 4
 
 ## Packages
 
