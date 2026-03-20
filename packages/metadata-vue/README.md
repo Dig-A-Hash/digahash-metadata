@@ -2,6 +2,8 @@
 
 Vue 3 composable wrapper around @digahash/metadata-core. Used to publish web content from simple hosted JSON files, often eliminating the need for a more expensive database.
 
+![digahash-metadata-vue](https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-vue.webp)
+
 ## Install
 
 ```bash

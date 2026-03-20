@@ -2,6 +2,8 @@
 
 Framework-agnostic metadata state management and utility functions used to publish web content from simple hosted JSON files, often eliminating the need for a more expensive database.
 
+![digahash-metadata-js](https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-js.webp)
+
 ## Install
 
 ```bash
