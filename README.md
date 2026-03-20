@@ -44,7 +44,7 @@ All developer commands run in Docker so no host Nodejs installation is required.
 Basic steps for a first time setup
 
 ```bash
-# first time setup or after dependency changes
+# first time setup
 docker compose down
 docker run --rm -it -v "$(pwd):/app" -w /app node:24-slim sh -lc "corepack enable && pnpm install"
 
@@ -53,6 +53,12 @@ docker compose up --build
 
 # normal restart after images are built
 docker compose up
+
+# use the workspace container to conduct future installs
+docker compose exec workspace sh -lc "pnpm install"
+
+# use the workspace container to conduct future builds
+docker compose exec workspace sh -lc "pnpm -r build"
 ```
 
 When running demos are available at these local addresses
