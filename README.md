@@ -13,7 +13,7 @@ This repo provides packages for [Angular][angular], [Vue][vue], [React][react], 
 
 ## Available Packages by Framework
 
-This monorepo for developing the individual packages for each framework. Use the links below to obtain the version that matches your chosen framework.
+This Monorepo is for developing the individual packages for each framework, that are all based on `@digahash/metadata-core`. Use the links below to obtain the version that matches your chosen framework.
 
 - link 1
 - link 2
