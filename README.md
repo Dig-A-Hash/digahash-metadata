@@ -4,6 +4,15 @@ Monorepo for multi framework metadata libraries providing tools to publish web c
 
 This repo provides packages for [Angular][angular], [Vue][vue], [React][react], and [Vanilla JavaScript][vanillajs].
 
+<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-angular.webp" width="200"  alt="digahash-metadata-angular" />
+	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-vue.webp" width="200" alt="digahash-metadata-vue" />
+	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-react.webp" width="200" alt="digahash-metadata-react" />
+	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-js.webp" width="200"  alt="digahash-metadata-js" />
+</div>
+
+
+
 ## Packages
 
 This repository contains four framework specific wrapper packages that integrate with `@digahash/metadata-core`
