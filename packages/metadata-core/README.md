@@ -60,6 +60,32 @@ const { createMetadataState } = require('@digahash/metadata-core');
 docker run --rm -it -v "$(pwd):/app" -w /app node:24-slim sh -lc "corepack enable && pnpm --filter @digahash/metadata-core build"
 ```
 
+## Running Unit Tests
+
+Preferred (Docker workspace container):
+
+```bash
+# From repo root — runs inside the workspace container
+docker compose exec workspace sh -lc "cd packages/metadata-core && corepack enable && npm test"
+```
+
+Alternative (package-local, useful for CI or quick iteration):
+
+```bash
+cd packages/metadata-core
+npm install
+npm test
+```
+
+Notes:
+- Tests use Vitest and the package includes a `test` script.
+- The project Docker workflow prefers running commands inside the `workspace` service so local Node/npm are not used on the host.
+- If you only need to run a single test file while iterating, pass `-- -t <pattern>` to the npm script, for example:
+
+```bash
+docker compose exec workspace sh -lc "cd packages/metadata-core && npm test -- -t fetchSupplyCounts"
+```
+
 ## Compatibility
 
 Works in modern browsers and Node.js runtimes with fetch support.

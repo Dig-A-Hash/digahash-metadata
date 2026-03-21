@@ -2,8 +2,18 @@ import 'zone.js';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { createMetadataService, groupItemsIntoRows } from '@digahash/metadata-angular';
+import { createMetadataService, groupItemsIntoRows, fetchSupplyCounts } from '@digahash/metadata-angular';
 import './styles.css';
+
+const countsUrl = 'https://nft.dig-a-hash.com/profiles/wgoqc/meta-data/counts2.json';
+let NEWS_TOTAL = 0;
+try {
+  const counts = await fetchSupplyCounts(countsUrl);
+  const news = counts.find((c) => c.folder === 'news');
+  NEWS_TOTAL = news?.count ?? 0;
+} catch {
+  NEWS_TOTAL = 0;
+}
 
 @Component({
   selector: 'app-root',
@@ -46,7 +56,7 @@ class AppComponent {
   private readonly metadata = createMetadataService({
     user: 'wgoqc',
     folder: 'news',
-    totalSupply: 90,
+    totalSupply: NEWS_TOTAL,
     batchSize: 10,
     isAscending: true,
     startTokenId: 0,

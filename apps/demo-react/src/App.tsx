@@ -1,11 +1,11 @@
 import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-react';
 import './styles.css';
 
-export function App() {
+export function App(props: { totalSupply?: number }) {
   const metadata = useMetadata({
     user: 'wgoqc',
     folder: 'news',
-    totalSupply: 90,
+    totalSupply: props.totalSupply ?? 0,
     batchSize: 10,
     isAscending: true,
     startTokenId: 0,

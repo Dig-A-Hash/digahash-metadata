@@ -68,7 +68,7 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   }), [view, fetchBatch, fetchAllRemainingMetadata, fetchMetadataBatch, fetchMetadata]);
 }
 
-export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows } from '@digahash/metadata-core';
+export { getMetadataAttributeValue, getPublicAttributeValue, groupItemsIntoRows, fetchSupplyCounts } from '@digahash/metadata-core';
 export type {
   CreateMetadataStateOptions,
   Metadata,

@@ -83,3 +83,52 @@ When running demos are available at these local addresses
 ## License
 
 MIT
+
+## SupplyCount payload and migration notes
+
+Preferred payload fields returned by the counts endpoint are an array of objects with the following shape:
+
+- `user`: string — profile user id (preferred over legacy `contractOwner`)
+- `folder`: string — folder name (preferred over legacy `contractAddress`)
+- `chainId`: number
+- `count`: number
+
+Legacy aliases supported by `fetchSupplyCounts()`:
+
+- `contractOwner` -> `user`
+- `contractAddress` -> `folder`
+
+Example usage (core helper):
+
+```ts
+import { fetchSupplyCounts } from '@digahash/metadata-core';
+
+const counts = await fetchSupplyCounts('https://.../counts2.json');
+const news = counts.find((c) => c.folder === 'news');
+const totalSupply = news?.count ?? 0;
+```
+
+Migration notes for consumers:
+
+- Use the `user` and `folder` fields when available.
+- `fetchSupplyCounts()` normalizes legacy shapes and will skip invalid entries instead of throwing.
+- If a counts endpoint is unavailable or malformed, code should fall back to a sensible default (for example `0`).
+
+## Running Unit Tests (quick guide)
+
+Preferred (Docker workspace container):
+
+```bash
+# From repo root — runs inside the workspace container
+docker compose exec workspace sh -lc "cd packages/metadata-core && corepack enable && npm test"
+```
+
+Run a single test by pattern:
+
+```bash
+docker compose exec workspace sh -lc "cd packages/metadata-core && npm test -- -t fetchSupplyCounts"
+```
+
+Notes:
+- The repo uses a Docker-first workflow — prefer commands above that execute inside the `workspace` container.
+- Package-local testing (`cd packages/metadata-core && npm test`) also works after installing dev deps.

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, toRef } from 'vue';
 import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-vue';
+const props = defineProps<{ totalSupply?: number }>();
+const totalSupply = toRef(props, 'totalSupply');
 
 const {
   items,
@@ -11,7 +13,7 @@ const {
 } = useMetadata({
   user: 'wgoqc',
   folder: 'news',
-  totalSupply: 90,
+  totalSupply: totalSupply.value ?? 0,
   batchSize: 10,
   isAscending: true,
   startTokenId: 0,

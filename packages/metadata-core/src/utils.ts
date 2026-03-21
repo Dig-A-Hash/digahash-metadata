@@ -76,17 +76,20 @@ export async function fetchSupplyCounts(
   }
 
   // Normalize legacy and new payload shapes into the preferred shape
-  const normalized: SupplyCount[] = raw.map((item: any) => {
+  const normalized: SupplyCount[] = [];
+
+  for (const item of raw) {
     const user: string | undefined = item.user ?? item.contractOwner;
     const folder: string | undefined = item.folder ?? item.contractAddress;
-    const chainId: number = Number(item.chainId);
-    const count: number = Number(item.count);
+    const chainId = Number(item.chainId);
+    const count = Number(item.count);
 
-    if (!user || !folder || Number.isNaN(chainId) || Number.isNaN(count)) {
-      throw new Error('Invalid supply count entry: missing required fields');
+    if (!user || !folder || !Number.isFinite(chainId) || !Number.isFinite(count)) {
+      // Skip invalid entries rather than throwing so callers can still get valid rows
+      continue;
     }
 
-    return {
+    normalized.push({
       // provide both forms so downstream TS/JS consumers can pick either
       user,
       folder,
@@ -94,8 +97,8 @@ export async function fetchSupplyCounts(
       contractAddress: item.contractAddress,
       chainId,
       count
-    } as SupplyCount;
-  });
+    } as SupplyCount);
+  }
 
   return normalized;
 }

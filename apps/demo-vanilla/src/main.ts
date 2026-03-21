@@ -1,4 +1,4 @@
-import { createMetadataState, groupItemsIntoRows } from '@digahash/metadata-core';
+import { createMetadataState, groupItemsIntoRows, fetchSupplyCounts } from '@digahash/metadata-core';
 import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app');
@@ -6,16 +6,40 @@ if (!app) {
   throw new Error('App root not found');
 }
 
-const state = createMetadataState({
+let state = createMetadataState({
   user: 'wgoqc',
   folder: 'news',
-  totalSupply: 90,
+  totalSupply: 0,
   batchSize: 50,
   isAscending: true,
   startTokenId: 0,
   baseUrl: 'https://nft.dig-a-hash.com/profiles',
   chainId: 137
 });
+
+async function initCounts() {
+  try {
+    const countsUrl = 'https://nft.dig-a-hash.com/profiles/wgoqc/meta-data/counts2.json';
+    const counts = await fetchSupplyCounts(countsUrl);
+    const news = counts.find((c) => c.folder === 'news');
+    const totalSupply = news?.count ?? 0;
+    state = createMetadataState({
+      user: 'wgoqc',
+      folder: 'news',
+      totalSupply,
+      batchSize: 50,
+      isAscending: true,
+      startTokenId: 0,
+      baseUrl: 'https://nft.dig-a-hash.com/profiles',
+      chainId: 137
+    });
+    render();
+  } catch {
+    render();
+  }
+}
+
+void initCounts();
 
 const render = () => {
   const rowsHtml = groupItemsIntoRows(state.items, 4)
@@ -67,4 +91,4 @@ const render = () => {
   }
 };
 
-render();
+// initial render will be invoked after counts init (or immediately if it fails)
