@@ -27,7 +27,7 @@ async function initCounts() {
       user: 'wgoqc',
       folder: 'news',
       totalSupply,
-      batchSize: 50,
+      batchSize: 10,
       isAscending: true,
       startTokenId: 0,
       baseUrl: 'https://nft.dig-a-hash.com/profiles',
