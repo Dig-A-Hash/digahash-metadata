@@ -132,3 +132,10 @@ docker compose exec workspace sh -lc "cd packages/metadata-core && npm test -- -
 Notes:
 - The repo uses a Docker-first workflow — prefer commands above that execute inside the `workspace` container.
 - Package-local testing (`cd packages/metadata-core && npm test`) also works after installing dev deps.
+
+## Run E2E Tests in Playwright
+
+### run (headless)
+```
+docker compose exec workspace pnpm -w run e2e
+```

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "@digahash/metadata-react": "^1.0.0",
+    "@digahash/metadata-react": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
