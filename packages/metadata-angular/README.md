@@ -118,6 +118,38 @@ Detailed return values and usage:
 - `fetchBatch()`: requests the next `batchSize` items.
 - `fetchAllRemainingMetadata()`: fetches until `allLoaded`.
 
+## SupplyCount payload and migration notes
+
+SupplyCounts are JSON endpoints that list total supply for one or many metadata collections. Keep counts for multiple collections in a single file (for example `counts2.json`) so consumers can retrieve supply data for all collections in one request. An accurate total supply is critical because metadata files are sequentially numbered; knowing the total enables correct paging, prevents fetching beyond available files, and supports efficient UI pagination.
+
+Preferred payload fields returned by the counts endpoint are an array of objects with the following shape:
+
+- `user`: string — profile user id (preferred over legacy `contractOwner`)
+- `folder`: string — folder name (preferred over legacy `contractAddress`)
+- `chainId`: number
+- `count`: number
+
+Legacy aliases supported by `fetchSupplyCounts()`:
+
+- `contractOwner` -> `user`
+- `contractAddress` -> `folder`
+
+Example usage (core helper):
+
+```ts
+import { fetchSupplyCounts } from '@digahash/metadata-core';
+
+const counts = await fetchSupplyCounts('https://.../counts2.json');
+const news = counts.find((c) => c.folder === 'news');
+const totalSupply = news?.count ?? 0;
+```
+
+Migration notes for consumers:
+
+- Use the `user` and `folder` fields when available.
+- `fetchSupplyCounts()` normalizes legacy shapes and will skip invalid entries instead of throwing.
+- If a counts endpoint is unavailable or malformed, code should fall back to a sensible default (for example `0`).
+
 ## License
 
 MIT
