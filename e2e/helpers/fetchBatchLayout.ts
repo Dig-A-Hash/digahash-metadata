@@ -18,6 +18,7 @@ export async function assertFetchBatchRenders442Layout(page: Page): Promise<void
     const lastRowFirstCard = rows.nth(2).locator('.card').first();
     const widthTolerancePx = 8;
 
+
     await expect
         .poll(async () => {
             const firstRowWidth = (await firstRowFirstCard.boundingBox())?.width ?? 0;
