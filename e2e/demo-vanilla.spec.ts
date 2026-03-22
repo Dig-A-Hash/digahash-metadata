@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { assertFetchBatchRenders442Layout } from './helpers/fetchBatchLayout';
 import { assertCardsHaveParseableDates } from './helpers/assertCardDates';
+import { assertLoadingIndicatorTurnsYesDuringFetch } from './helpers/assertLoadingIndicator';
 
 test('renders the vanilla demo shell', async ({ page }) => {
     await page.goto('/');
@@ -18,4 +19,8 @@ test('each card shows a parseable date in the vanilla demo', async ({ page }) =>
     await page.goto('/');
     await page.getByRole('button', { name: 'Fetch Next Batch' }).click();
     await assertCardsHaveParseableDates(page);
+});
+
+test('loading changes to yes while the vanilla demo batch request is in flight', async ({ page }) => {
+    await assertLoadingIndicatorTurnsYesDuringFetch(page);
 });
