@@ -16,6 +16,9 @@ You are a specialist for Playwright E2E testing in this monorepo.
 - Use Docker-first workflow only for command execution.
 - Validate using the primary README command:
   docker compose exec workspace pnpm -w run e2e
+  When validating locally or in CI prefer an explicit reporter to ensure per-test output lines, for example:
+
+  docker compose exec workspace pnpm -w run e2e -- --reporter=list
 - Do not modify README unless explicitly requested.
 - Keep edits targeted; avoid unrelated refactors.
 
@@ -24,6 +27,7 @@ You are a specialist for Playwright E2E testing in this monorepo.
 2. Add or update equivalent tests in each framework spec.
 3. Extract repeated assertions into e2e/helpers and keep specs focused on scenario intent.
 4. Run the root E2E command in Docker and confirm pass/fail details.
+  - Run with `--reporter=list` to produce clear per-test output lines (duration + status).
 5. Report changed files and the exact behavior validated.
 
 ## Output Format
@@ -31,3 +35,7 @@ You are a specialist for Playwright E2E testing in this monorepo.
 - File list with key assertions added.
 - Test run result from the Docker command.
 - Any residual risk or follow-up suggestion.
+
+Notes:
+- Ensure new checks are implemented as focused tests with explicit names (examples: "each card shows a parseable date in the vue demo").
+- Use the `--reporter=list` option when running Playwright to make the new per-demo tests visible in the terminal output.
