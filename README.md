@@ -135,10 +135,24 @@ Notes:
 
 ## Run E2E Tests in Playwright
 
-### run (headless)
+### run all demos (grouped output, slower)
+```bash
+docker compose exec workspace pnpm -w run e2e:grouped
 ```
+
+### run all demos (fast parallel output)
+```bash
+docker compose exec workspace pnpm -w run e2e:fast
+```
+
+### run default e2e script
+```bash
 docker compose exec workspace pnpm -w run e2e
 ```
+
+Notes:
+- `e2e:grouped` runs with one worker so framework output stays grouped in order: vanilla -> angular -> react -> vue.
+- `e2e:fast` runs with parallel workers and is faster, but test lines are interleaved by framework.
 
 ### shared e2e helper
 - Shared assertions for the "Fetch Next Batch" 10-card and 4/4/2 layout test are in `e2e/helpers/fetchBatchLayout.ts`.

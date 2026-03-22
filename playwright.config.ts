@@ -20,10 +20,10 @@ export default defineConfig({
             }
         },
         {
-            name: 'vue',
-            testMatch: /demo-vue\.spec\.ts/,
+            name: 'angular',
+            testMatch: /demo-angular\.spec\.ts/,
             use: {
-                baseURL: 'http://127.0.0.1:4174'
+                baseURL: 'http://127.0.0.1:4200'
             }
         },
         {
@@ -34,10 +34,10 @@ export default defineConfig({
             }
         },
         {
-            name: 'angular',
-            testMatch: /demo-angular\.spec\.ts/,
+            name: 'vue',
+            testMatch: /demo-vue\.spec\.ts/,
             use: {
-                baseURL: 'http://127.0.0.1:4200'
+                baseURL: 'http://127.0.0.1:4174'
             }
         }
     ],
@@ -49,8 +49,8 @@ export default defineConfig({
             reuseExistingServer: true
         },
         {
-            command: 'pnpm --filter demo-vue dev',
-            url: 'http://127.0.0.1:4174',
+            command: 'pnpm --filter demo-angular exec ng serve --host 127.0.0.1 --no-hmr',
+            url: 'http://127.0.0.1:4200',
             timeout: 180_000,
             reuseExistingServer: true
         },
@@ -61,8 +61,8 @@ export default defineConfig({
             reuseExistingServer: true
         },
         {
-            command: 'pnpm --filter demo-angular dev',
-            url: 'http://127.0.0.1:4200',
+            command: 'pnpm --filter demo-vue dev',
+            url: 'http://127.0.0.1:4174',
             timeout: 180_000,
             reuseExistingServer: true
         }
