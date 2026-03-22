@@ -139,3 +139,7 @@ Notes:
 ```
 docker compose exec workspace pnpm -w run e2e
 ```
+
+### shared e2e helper
+- Shared assertions for the "Fetch Next Batch" 10-card and 4/4/2 layout test are in `e2e/helpers/fetchBatchLayout.ts`.
+- Keep cross-demo UI parity checks in shared helpers when assertions are identical, and call them from each framework-specific spec to reduce duplication.
