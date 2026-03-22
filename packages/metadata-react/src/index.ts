@@ -41,7 +41,9 @@ export function useMetadata(options: CreateMetadataStateOptions) {
   }, [state]);
 
   const fetchBatch = useCallback(async () => {
-    await state.fetchBatch();
+    const inFlight = state.fetchBatch();
+    sync();
+    await inFlight;
     sync();
   }, [state, sync]);
 

@@ -88,7 +88,9 @@ const render = () => {
   const loadButton = document.querySelector<HTMLButtonElement>('#load');
   if (loadButton) {
     loadButton.onclick = async () => {
-      await state.fetchBatch();
+      const inFlight = state.fetchBatch();
+      render();
+      await inFlight;
       render();
     };
   }

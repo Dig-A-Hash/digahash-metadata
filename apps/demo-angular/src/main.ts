@@ -79,7 +79,13 @@ class AppComponent {
   async loadBatch(): Promise<void> {
     this.lastError.set(null);
     try {
-      await this.metadata.fetchBatch();
+      const inFlight = this.metadata.fetchBatch();
+      this.downloadedCount.set(this.metadata.downloadedCount);
+      this.isLoading.set(this.metadata.isLoading);
+      this.allLoaded.set(this.metadata.allLoaded);
+      this.preview.set(JSON.stringify(this.metadata.items.slice(0, 2), null, 2));
+      this.items.set([...this.metadata.items]);
+      await inFlight;
       this.downloadedCount.set(this.metadata.downloadedCount);
       this.isLoading.set(this.metadata.isLoading);
       this.allLoaded.set(this.metadata.allLoaded);

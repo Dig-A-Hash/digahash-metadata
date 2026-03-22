@@ -29,7 +29,9 @@ export class MetadataService {
 
   async fetchBatch(): Promise<void> {
     const coreState = this.getCoreState();
-    await coreState.fetchBatch();
+    const inFlight = coreState.fetchBatch();
+    this.sync();
+    await inFlight;
     this.sync();
   }
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { groupItemsIntoRows, useMetadata, getMetadataAttributeValue } from '@digahash/metadata-react';
 import './styles.css';
 
@@ -13,6 +14,8 @@ export function App(props: { totalSupply?: number }) {
     chainId: 137
   });
 
+  const [localLoading, setLocalLoading] = useState(false);
+
   const groupedItems = groupItemsIntoRows(metadata.items, 4);
 
   return (
@@ -21,12 +24,20 @@ export function App(props: { totalSupply?: number }) {
 
       <div className="status-row">
         <p>Downloaded: <strong>{metadata.downloadedCount}</strong></p>
-        <p>Loading: <strong>{metadata.isLoading ? 'yes' : 'no'}</strong></p>
+        <p>Loading: <strong>{metadata.isLoading || localLoading ? 'yes' : 'no'}</strong></p>
         <p>Entire collection requested: <strong>{metadata.allLoaded ? 'yes' : 'no'}</strong></p>
       </div>
 
-      <button className="fetch-button" disabled={metadata.isLoading} onClick={() => void metadata.fetchBatch()}>
-        {metadata.isLoading ? 'Fetching...' : 'Fetch Next Batch'}
+      <button
+        className="fetch-button"
+        disabled={metadata.isLoading || localLoading}
+        onClick={() => {
+          const inFlight = metadata.fetchBatch();
+          setLocalLoading(true);
+          void inFlight.finally(() => setLocalLoading(false));
+        }}
+      >
+        {metadata.isLoading || localLoading ? 'Fetching...' : 'Fetch Next Batch'}
       </button>
 
       {groupedItems.length ? (
