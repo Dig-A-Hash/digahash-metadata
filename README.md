@@ -80,40 +80,6 @@ When running demos are available at these local addresses
 [react]: https://reactjs.org
 [vanillajs]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
-## License
-
-MIT
-
-## SupplyCount payload and migration notes
-
-Preferred payload fields returned by the counts endpoint are an array of objects with the following shape:
-
-- `user`: string — profile user id (preferred over legacy `contractOwner`)
-- `folder`: string — folder name (preferred over legacy `contractAddress`)
-- `chainId`: number
-- `count`: number
-
-Legacy aliases supported by `fetchSupplyCounts()`:
-
-- `contractOwner` -> `user`
-- `contractAddress` -> `folder`
-
-Example usage (core helper):
-
-```ts
-import { fetchSupplyCounts } from '@digahash/metadata-core';
-
-const counts = await fetchSupplyCounts('https://.../counts2.json');
-const news = counts.find((c) => c.folder === 'news');
-const totalSupply = news?.count ?? 0;
-```
-
-Migration notes for consumers:
-
-- Use the `user` and `folder` fields when available.
-- `fetchSupplyCounts()` normalizes legacy shapes and will skip invalid entries instead of throwing.
-- If a counts endpoint is unavailable or malformed, code should fall back to a sensible default (for example `0`).
-
 ## Running Unit Tests (quick guide)
 
 Preferred (Docker workspace container):
@@ -157,3 +123,7 @@ Notes:
 ### shared e2e helper
 - Shared assertions for the "Fetch Next Batch" 10-card and 4/4/2 layout test are in `e2e/helpers/fetchBatchLayout.ts`.
 - Keep cross-demo UI parity checks in shared helpers when assertions are identical, and call them from each framework-specific spec to reduce duplication.
+
+## License
+
+MIT
