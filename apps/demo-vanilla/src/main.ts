@@ -10,7 +10,7 @@ let state = createMetadataState({
   user: 'wgoqc',
   folder: 'news',
   totalSupply: 0,
-  batchSize: 50,
+  batchSize: 10,
   isAscending: true,
   startTokenId: 0,
   baseUrl: 'https://nft.dig-a-hash.com/profiles',
