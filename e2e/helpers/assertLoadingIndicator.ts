@@ -6,18 +6,19 @@ export async function assertLoadingIndicatorTurnsYesDuringFetch(page: Page): Pro
     // inject a fetch wrapper to delay metadata JSON requests so transient loading becomes observable
     await page.addInitScript(() => {
         const origFetch = window.fetch;
+        // replace fetch with a typed wrapper to avoid TS tuple/apply issues
         // @ts-ignore
-        window.fetch = function (...args: any[]) {
+        window.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
             try {
-                const url = typeof args[0] === 'string' ? args[0] : args[0]?.url;
+                const url = typeof input === 'string' ? input : (input as Request).url;
                 if (typeof url === 'string' && url.includes('/meta-data/137/news/')) {
-                    return new Promise((resolve) => setTimeout(() => resolve(origFetch.apply(this, args)), 500));
+                    return new Promise((resolve) => setTimeout(() => resolve(origFetch(input, init)), 500));
                 }
             } catch {
                 // swallow
             }
             // @ts-ignore
-            return origFetch.apply(this, args);
+            return origFetch(input, init);
         };
     });
 
