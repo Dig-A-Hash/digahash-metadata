@@ -1,4 +1,4 @@
-import { createMetadataState, groupItemsIntoRows, fetchSupplyCounts } from '@digahash/metadata-core';
+import { createMetadataState, groupItemsIntoRows, fetchSupplyCounts, getMetadataAttributeValue } from '@digahash/metadata-core';
 import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app');
@@ -49,6 +49,8 @@ const render = () => {
           const image = item.metaData.image
             ? `<img src="${item.metaData.image}" alt="${(item.metaData.name ?? '').replace(/"/g, '&quot;')}" class="card-image">`
             : `<div class="image-placeholder">No image</div>`;
+          const dateAdded = getMetadataAttributeValue(item.metaData, 'date-added');
+          const dateHtml = dateAdded ? `<div class="date-added">${dateAdded}</div>` : '';
 
           return `
               <article class="card">
@@ -57,6 +59,7 @@ const render = () => {
                   <h2>${(item.metaData.name ?? '').replace(/</g, '&lt;')}</h2>
                 </header>
                 <div class="image-frame">${image}</div>
+                ${dateHtml}
               </article>
             `;
         })

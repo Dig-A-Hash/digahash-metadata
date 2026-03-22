@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue';
-import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-vue';
+import { groupItemsIntoRows, useMetadata, getMetadataAttributeValue } from '@digahash/metadata-vue';
 const props = defineProps<{ totalSupply?: number }>();
 const totalSupply = toRef(props, 'totalSupply');
 
@@ -52,6 +52,10 @@ const groupedItems = computed(() => groupItemsIntoRows(items.value, 4));
           <div class="image-frame">
             <img v-if="item.metaData.image" :src="item.metaData.image" :alt="item.metaData.name" class="card-image">
             <div v-else class="image-placeholder">No image</div>
+          </div>
+
+          <div v-if="getMetadataAttributeValue(item.metaData, 'date-added')" class="date-added">
+            {{ getMetadataAttributeValue(item.metaData, 'date-added') }}
           </div>
         </article>
       </div>
@@ -146,6 +150,14 @@ const groupedItems = computed(() => groupItemsIntoRows(items.value, 4));
 
 .image-placeholder {
   color: #777777;
+}
+
+.date-added {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666666;
 }
 
 .description {

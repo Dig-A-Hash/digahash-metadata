@@ -2,7 +2,7 @@ import 'zone.js';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { createMetadataService, groupItemsIntoRows, fetchSupplyCounts } from '@digahash/metadata-angular';
+import { createMetadataService, groupItemsIntoRows, fetchSupplyCounts, getMetadataAttributeValue } from '@digahash/metadata-angular';
 import './styles.css';
 
 const countsUrl = 'https://nft.dig-a-hash.com/profiles/wgoqc/meta-data/counts2.json';
@@ -43,6 +43,10 @@ try {
             <div class="image-frame">
               <img *ngIf="readImage(item.metaData) as image" [src]="image" [alt]="readName(item.metaData)" class="card-image" />
               <div *ngIf="!readImage(item.metaData)" class="image-placeholder">No image</div>
+            </div>
+
+            <div *ngIf="readDateAdded(item.metaData)" class="date-added">
+              {{ readDateAdded(item.metaData) }}
             </div>
           </article>
         </div>
@@ -102,6 +106,10 @@ class AppComponent {
     }
     const image = (metaData as { image?: unknown }).image;
     return typeof image === 'string' && image.length > 0 ? image : null;
+  }
+
+  readDateAdded(metaData: unknown): string | null {
+    return getMetadataAttributeValue(metaData as any, 'date-added');
   }
 }
 

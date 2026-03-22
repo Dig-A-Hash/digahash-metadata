@@ -1,4 +1,4 @@
-import { groupItemsIntoRows, useMetadata } from '@digahash/metadata-react';
+import { groupItemsIntoRows, useMetadata, getMetadataAttributeValue } from '@digahash/metadata-react';
 import './styles.css';
 
 export function App(props: { totalSupply?: number }) {
@@ -49,6 +49,12 @@ export function App(props: { totalSupply?: number }) {
                       <div className="image-placeholder">No image</div>
                     )}
                   </div>
+
+                  {getMetadataAttributeValue(item.metaData, 'date-added') && (
+                    <div className="date-added">
+                      {getMetadataAttributeValue(item.metaData, 'date-added')}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>

@@ -94,6 +94,14 @@ body {
   color: #777777;
 }
 
+.date-added {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666666;
+}
+
 .description {
   margin: 0.75rem 0 0;
 }
