@@ -201,6 +201,10 @@ Migration notes for consumers:
 - `fetchSupplyCounts()` normalizes legacy shapes and will skip invalid entries instead of throwing.
 - If a counts endpoint is unavailable or malformed, code should fall back to a sensible default (for example `0`).
 
+## How To Contribute
+
+[![GitHub - digahash-metadata](https://img.shields.io/badge/GitHub-digahash--metadata-181717?logo=github&logoColor=white)](https://github.com/Dig-A-Hash/digahash-metadata)
+
 ## License
 
 MIT
