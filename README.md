@@ -2,7 +2,7 @@
 
 Monorepo for multi framework metadata libraries providing tools to publish web content from simple hosted JSON files that are sequentially numbered. This approach can eliminate the need for a more expensive separate database in website development.
 
-This repo provides packages for [Angular][angular], [Vue][vue], [React][react], and [Vanilla JavaScript][vanillajs].
+This repo provides packages for Angular, Vue, React, and Vanilla JavaScript.
 
 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
 	<img src="https://images.dig-a-hash.com/dig-a-hash/digahash-metadata-angular.webp" width="200"  alt="digahash-metadata-angular" />
@@ -15,10 +15,10 @@ This repo provides packages for [Angular][angular], [Vue][vue], [React][react], 
 
 This Monorepo is for developing the individual packages for each framework, that are all based on `@digahash/metadata-core`. Use the links below to obtain the version that matches your chosen framework.
 
-- link 1
-- link 2
-- link 3
-- line 4
+- [Vanilla JS](https://www.npmjs.com/package/@digahash/metadata-core)
+- [Angular](https://www.npmjs.com/package/@digahash/metadata-angular)
+- [React](https://www.npmjs.com/package/@digahash/metadata-react)
+- [Vue](https://www.npmjs.com/package/@digahash/metadata-vue)
 
 ## Packages
 
@@ -74,11 +74,6 @@ When running demos are available at these local addresses
 * `packages/metadata-vue/README.md`
 * `packages/metadata-react/README.md`
 * `packages/metadata-angular/README.md`
-
-[angular]: https://angular.io
-[vue]: https://vuejs.org
-[react]: https://reactjs.org
-[vanillajs]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 ## Running Unit Tests (quick guide)
 

@@ -30,3 +30,7 @@ pnpm-debug.log*
 .vscode/
 .idea/
 .DS_Store
+
+# ignore npm credential files
+.npmrc
+**/.npmrc
